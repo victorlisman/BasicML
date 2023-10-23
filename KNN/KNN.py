@@ -3,10 +3,6 @@ from collections import Counter
 
 # KNN clasification 
 
-# Compute euclidean distance between two points
-def distance(x, y):
-    return np.sqrt(np.sum((x - y) ** 2))
-
 class KNN:
     # Assign number of neighbors
     def __init__(self, k=3):
@@ -25,7 +21,7 @@ class KNN:
     # Helper function
     def _predict(self, x):
         # Compute distance between sample and features
-        distances = [distance(x, x_train) for x_train in self.X_train]
+        distances = [self._distance(x, x_train) for x_train in self.X_train]
 
         # Get k nearest samples, labels
         k_indices = np.argsort(distances)[:self.k]
@@ -35,6 +31,10 @@ class KNN:
         most_common = Counter(k_nearest_labels).most_common(1)
 
         return most_common[0][0]
+    
+    # Compute euclidean distance between two points
+    def _distance(self, x, y):
+        return np.sqrt(np.sum((x - y) ** 2))
     
 if __name__ == "__main__":
     # Imports
