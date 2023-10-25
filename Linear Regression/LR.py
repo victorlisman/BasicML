@@ -21,10 +21,10 @@ class LR:
         for _ in range(self.epochs):
             y_pred = np.dot(X, self.w) + self.b
 
-            dw = 1 / num_samples *(np.dot(X.T, (y_pred - y)))
-            db = 1 / num_samples *(np.sum(y_pred - y))
+            dw = (1 / num_samples) *(np.dot(X.T, (y_pred - y)))
+            db = (1 / num_samples) *(np.sum(y_pred - y))
 
-            self.w -= dw * self.lr
+            self.w = self.w - (dw * self.lr)
             self.b -= db * self.lr
 
     # Return the prediction for a new X matrix
@@ -33,25 +33,20 @@ class LR:
 
         return y_pred
         
-from sklearn.model_selection import train_test_split
-from sklearn import datasets
-import matplotlib.pyplot as plt
-
-X, y = datasets.make_regression(n_samples=100, n_features=1, noise=20, random_state=4)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
-
-regr = LR(lr=0.001, epochs=10000)
-regr.fit(X_train, y_train)
-predicted = regr.pred(X_test)
 
 def MSE(y_true, y_pred):
     return np.mean((y_true - y_pred) ** 2)
 
-mse = MSE(y_test, predicted)
-print(mse)
 
-plt.scatter(X_test, y_test)
-plt.plot(X_test, predicted, color='red')
+X_train = [1, 2, 3, 4, 5]
+y_train = [2, 4, 6, 8, 10]
 
-plt.show()
-
+X_train = np.array(X_train, dtype=np.float64).reshape(-1, 1)
+y_train = np.array(y_train, dtype=np.float64).reshape(-1, 1)
+regr = LR(lr=0.001, epochs=10000)
+regr.fit(X_train, y_train)
+X_new = np.array([20, 40, 50, 60, 70]).reshape(-1, 1)
+y_new = np.array([40, 80, 100, 120, 140]).reshape(-1, 1)
+y_pred = regr.pred(X_new)
+print(MSE(y_new, y_pred))
+print(y_pred[:, 0])
