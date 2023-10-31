@@ -21,8 +21,8 @@ class LR:
         for _ in range(self.epochs):
             y_pred = np.dot(X, self.w) + self.b
 
-            dw = (1 / num_samples) *(np.dot(X.T, (y_pred - y)))
-            db = (1 / num_samples) *(np.sum(y_pred - y))
+            dw = (1 / num_samples) * (np.dot(X.T, (y_pred - y)))
+            db = (1 / num_samples) * (np.sum(y_pred - y))
 
             self.w = self.w - (dw * self.lr)
             self.b = self.b - db * self.lr
